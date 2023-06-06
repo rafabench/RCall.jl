@@ -170,7 +170,10 @@ end
 # for validate_libR
 if haskey(ENV, "IGNORE_RHOME")
     if !haskey(ENV, "R_HOME")
-        error("Path to R bin not found.")
+        error("R_HOME not found.")
+        if !isdir(get(ENV, "R_HOME", ""))
+            error("Path to R folder not found.")
+        end
     end
     const Rhome = get(ENV, "R_HOME", "")
     const libR = locate_libR(Rhome)

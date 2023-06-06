@@ -37,11 +37,14 @@ if !haskey(ENV, "IGNORE_RHOME")
         error("RCall not properly installed. Please run Pkg.build(\"RCall\")")
     end
 else
-    Rhome = get(ENV, "R_HOME", "")
-    if Rhome == ""
-        error("R not found.")
+    if !haskey(ENV, "R_HOME")
+        error("R_HOME not found.")
+        if !isdir(get(ENV, "R_HOME", ""))
+            error("Path to R folder not found.")
+        end
     end
-    libR = locate_libR(Rhome)
+    const Rhome = get(ENV, "R_HOME", "")
+    const libR = locate_libR(Rhome)
 end
 
 include("types.jl")
