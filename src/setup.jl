@@ -169,10 +169,10 @@ end
 
 # for validate_libR
 if haskey(ENV, "IGNORE_RHOME")
-    const Rhome = get(ENV, "R_HOME", "")
-    if Rhome == ""
-        error("R not found.")
+    if !haskey(ENV, "R_HOME")
+        error("Path to R bin not found.")
     end
+    const Rhome = get(ENV, "R_HOME", "")
     const libR = locate_libR(Rhome)
 else
     include(joinpath(dirname(@__FILE__),"..","deps","setup.jl"))
