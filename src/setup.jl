@@ -76,6 +76,7 @@ function initEmbeddedR()
 
         # otherwise R will set it itself, which can be wrong on Windows
         if !("HOME" in keys(ENV))
+            println(homedir())
             ccall(:_wputenv,Cint,(Cwstring,),"HOME="*homedir())
         end
 
