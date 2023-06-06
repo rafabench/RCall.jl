@@ -77,7 +77,7 @@ if !haskey(ENV, "IGNORE_RHOME")
 else
     if !haskey(ENV, "R_HOME")
         error("R_HOME not found.")
-        if !isdir(get(ENV, "R_HOME", ""))
+        if !isdir(get(ENV, "R_HOME", "error"))
             error("Path to R folder not found.")
         end
     end
