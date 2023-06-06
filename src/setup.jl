@@ -168,18 +168,7 @@ function endEmbeddedR()
 end
 
 # for validate_libR
-if haskey(ENV, "IGNORE_RHOME")
-    if !haskey(ENV, "R_HOME")
-        error("R_HOME not found.")
-        if !isdir(get(ENV, "R_HOME", ""))
-            error("Path to R folder not found.")
-        end
-    end
-    const Rhome = get(ENV, "R_HOME", "")
-    const libR = locate_libR(Rhome)
-else
-    include(joinpath(dirname(@__FILE__),"..","deps","setup.jl"))
-end
+include(joinpath(dirname(@__FILE__),"..","deps","setup.jl"))
 
 
 function __init__()
