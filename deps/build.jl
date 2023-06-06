@@ -53,11 +53,9 @@ try
                     error("R_HOME is not a directory.")
                 end
             end
-
             isempty(Rhome) && error("R cannot be found. Set the \"R_HOME\" environment variable to re-run Pkg.build(\"RCall\").")
             libR = locate_libR(Rhome)
         end
-
         @info "Using R at $Rhome and libR at $libR."
         if DepFile.Rhome != Rhome || DepFile.libR != libR
             open(depfile, "w") do f
