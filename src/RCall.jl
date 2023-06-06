@@ -30,14 +30,18 @@ export RObject,
    rimport, @rimport, @rlibrary, @rput, @rget, @var_str, @R_str
 
 include(joinpath(dirname(@__FILE__),"..","deps","setup.jl"))
+@show haskey(ENV, "R_HOME")
+@show haskey(ENV, "IGNORE_RHOME")
 if !haskey(ENV, "IGNORE_RHOME")
     const depfile = joinpath(dirname(@__FILE__),"..","deps","deps.jl")
+    @show depfile
     if isfile(depfile)
         include(depfile)
     else
         error("RCall not properly installed. Please run Pkg.build(\"RCall\")")
     end
 else
+    @show haskey(ENV, "R_HOME")
     if !haskey(ENV, "R_HOME")
         error("R_HOME not found.")
         if !isdir(get(ENV, "R_HOME", "error"))

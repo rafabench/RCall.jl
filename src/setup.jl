@@ -1,3 +1,4 @@
+@show "setup\n"
 const Rembedded = Ref{Bool}(false)
 @static if Sys.iswindows()
     import WinReg
@@ -76,7 +77,6 @@ function initEmbeddedR()
 
         # otherwise R will set it itself, which can be wrong on Windows
         if !("HOME" in keys(ENV))
-            println(homedir())
             ccall(:_wputenv,Cint,(Cwstring,),"HOME="*homedir())
         end
 
