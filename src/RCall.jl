@@ -37,7 +37,7 @@ export RObject,
 #end
 
 const Rhome = get(ENV, "R_HOME", "")
-const libR = joinpath(Rhome, "bin", Sys.WORD_SIZE==64 ? "x64" : "i386", "R.dll")
+const libR = joinpath(Rhome, "R.dll")
 
 include("types.jl")
 include("Const.jl")
