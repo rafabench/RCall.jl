@@ -29,13 +29,15 @@ export RObject,
    robject, rcopy, rparse, rprint, reval, rcall, rlang,
    rimport, @rimport, @rlibrary, @rput, @rget, @var_str, @R_str
 
-const depfile = joinpath(dirname(@__FILE__),"..","deps","deps.jl")
-@show depfile
-if isfile(depfile)
-    include(depfile)
-else
-    error("RCall not properly installed. Please run Pkg.build(\"RCall\")")
-end
+#const depfile = joinpath(dirname(@__FILE__),"..","deps","deps.jl")
+#if isfile(depfile)
+#    include(depfile)
+#else
+#    error("RCall not properly installed. Please run Pkg.build(\"RCall\")")
+#end
+
+const Rhome = get(ENV, "R_HOME", "")
+const libR = joinpath(Rhome, "bin", Sys.WORD_SIZE==64 ? "x64" : "i386", "R.dll")
 
 include("types.jl")
 include("Const.jl")
