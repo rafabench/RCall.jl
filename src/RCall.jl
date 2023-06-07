@@ -36,8 +36,8 @@ export RObject,
 #    error("RCall not properly installed. Please run Pkg.build(\"RCall\")")
 #end
 
-const Rhome = get(ENV, "R_HOME", "")
-const libR = joinpath(Rhome, "R.dll")
+const R_HOME = get(ENV, "R_HOME", "")
+const libR = joinpath(R_HOME, "R.dll")
 
 include("types.jl")
 include("Const.jl")
