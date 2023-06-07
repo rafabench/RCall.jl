@@ -1,3 +1,4 @@
+@show "setup\n"
 const Rembedded = Ref{Bool}(false)
 @static if Sys.iswindows()
     import WinReg
@@ -169,6 +170,7 @@ end
 
 # for validate_libR
 include(joinpath(dirname(@__FILE__),"..","deps","setup.jl"))
+
 
 function __init__()
     validate_libR(libR)
