@@ -1,4 +1,3 @@
-@show "setup\n"
 const Rembedded = Ref{Bool}(false)
 @static if Sys.iswindows()
     import WinReg
@@ -172,50 +171,50 @@ end
 include(joinpath(dirname(@__FILE__),"..","deps","setup.jl"))
 
 
-function __init__()
-    validate_libR(libR)
+# function __init__()
+#     # validate_libR(libR)
 
-    # Check if R already running
-    # for some reaons, cglobal((:R_NilValue, libR)) doesn't work on rstudio/linux
-    # https://github.com/Non-Contradiction/JuliaCall/issues/34
-    Rinited, from_libR = try
-        unsafe_load(cglobal(:R_NilValue, Ptr{Cvoid})) != C_NULL, false
-    catch
-        unsafe_load(cglobal((:R_NilValue, libR), Ptr{Cvoid})) != C_NULL, true
-    end
+#     # Check if R already running
+#     # for some reaons, cglobal((:R_NilValue, libR)) doesn't work on rstudio/linux
+#     # https://github.com/Non-Contradiction/JuliaCall/issues/34
+#     Rinited, from_libR = try
+#         unsafe_load(cglobal(:R_NilValue, Ptr{Cvoid})) != C_NULL, false
+#     catch
+#         unsafe_load(cglobal((:R_NilValue, libR), Ptr{Cvoid})) != C_NULL, true
+#     end
 
-    if !Rinited
-        initEmbeddedR()
-    end
+#     if !Rinited
+#         initEmbeddedR()
+#     end
 
-    ip = ccall((:Rf_ScalarInteger, libR),Ptr{Cvoid},(Cint,),0)
+#     ip = ccall((:Rf_ScalarInteger, libR),Ptr{Cvoid},(Cint,),0)
 
-    Const.load(from_libR)
+#     Const.load(from_libR)
 
-    # set up function callbacks
-    setup_callbacks()
+#     # set up function callbacks
+#     setup_callbacks()
 
-    if !Rinited
-        # print warnings as they arise
-        # we can't use Rf_PrintWarnings as not exported on all platforms.
-        rcall_p(:options,warn=1)
+#     if !Rinited
+#         # print warnings as they arise
+#         # we can't use Rf_PrintWarnings as not exported on all platforms.
+#         rcall_p(:options,warn=1)
 
-        # disable menu on windows
-        rcall_p(:options; Symbol("menu.graphics") => false)
+#         # disable menu on windows
+#         rcall_p(:options; Symbol("menu.graphics") => false)
 
-        # R gui eventloop
-        isinteractive() && rgui_init()
-    end
+#         # R gui eventloop
+#         isinteractive() && rgui_init()
+#     end
 
-    @require AxisArrays="39de3d68-74b9-583c-8d2d-e117c070f3a9" begin
-        include("convert/axisarray.jl")
-    end
+#     @require AxisArrays="39de3d68-74b9-583c-8d2d-e117c070f3a9" begin
+#         include("convert/axisarray.jl")
+#     end
 
-    # R REPL mode
-    isdefined(Base, :active_repl) &&
-        isinteractive() && typeof(Base.active_repl) != REPL.BasicREPL &&
-            !RPrompt.repl_inited(Base.active_repl) && RPrompt.repl_init(Base.active_repl)
+#     # R REPL mode
+#     isdefined(Base, :active_repl) &&
+#         isinteractive() && typeof(Base.active_repl) != REPL.BasicREPL &&
+#             !RPrompt.repl_inited(Base.active_repl) && RPrompt.repl_init(Base.active_repl)
 
-    # # IJulia hooks
-    isdefined(Main, :IJulia) && Main.IJulia.inited && ijulia_init()
-end
+#     # # IJulia hooks
+#     isdefined(Main, :IJulia) && Main.IJulia.inited && ijulia_init()
+# end
